@@ -81,7 +81,11 @@ app.get('/departments/highest-average-salary', (req, res) => {
 //6. Viết API để trả về danh sách các trưởng phòng
 app.get('/departments/directors', (req, res) => {
   const departments = readFile(departmentsFilePath);
-  const directors = departments.map(dept => ({ department: dept.name, directorId: dept.directorId }));
+  const employees = readFile(employeesFilePath)
+  departments.forEach(dept => {
+    const directors = employees.filter(emp => emp.id === dept.DirectorId);
+    directors = dept
+  })
   res.status(200).json(directors);
 });
 

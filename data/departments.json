@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": 1,
+    "Name": "Phòng it",
+    "Description": "Phòng làm việc it",
+    "DirectorId": "123"
+  },
+  {
+    "id": 2,
+    "Name": "Phòng it",
+    "Description": "Phòng làm việc it",
+    "DirectorId": "123"
+  }
+]

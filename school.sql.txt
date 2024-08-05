@@ -1,0 +1,73 @@
+CREATE DATABASE school;
+
+CREATE TABLE students (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(100),
+	birthday DATE,
+	email VARCHAR(100)
+);
+
+-- Them du lieu
+INSERT INTO students (name, birthday, email) VALUES ('Dang Cao Tri', '2003-03-18', 'tridc1803@gmail.com');
+
+-- Thêm cột address
+ALTER TABLE students
+ADD COLUMN address VARCHAR(255);
+
+-- Đổi tên cột name thành full_name
+ALTER TABLE students
+CHANGE COLUMN name full_name VARCHAR(100);
+
+-- Lấy ra tất cả record từ bảng students
+SELECT * FROM students;
+
+-- Chọn cột full_name và email từ bảng students cho những sinh viên có birthday sau năm 1995
+SELECT full_name, email FROM students where birthday > '1995-01-01' ;
+
+-- Sắp xếp dữ liệu trong bảng students theo birthday giảm dần
+SELECT * FROM students ORDER BY birthday DESC;
+
+-- Cập nhật cột email cho sinh viên có họ “Nguyen” thành null
+update students
+set email = NULL
+where full_name like 'Nguyen%';
+
+-- Xóa những sinh viên có birthday trước năm 1992
+DELETE FROM table_name WHERE birthday < '1992-01-01';
+
+-- Tạo và sử dụng khóa ngoại
+CREATE TABLE courses  (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	description TEXT
+);
+-- Them du lieu
+INSERT INTO courses (name, description) VALUES
+('IT 101', 'Day IT'),
+('TOAN 201', 'Day TOAN');
+
+-- Tạo bảng enrollments để lưu trữ thông tin tham gia khóa học của sinh viên
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    FOREIGN KEY (student_id) REFERENCES student(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+
+INSERT INTO enrollments (student_id, course_id) VALUES
+(1, 1),
+(2, 2);
+
+-- Lấy thông tin về tên sinh viên và tên khóa học mà họ tham gia
+SELECT s.full_name , c.name
+FROM enrollments e
+JOIN students s ON e.student_id = s.id
+JOIN courses c ON e.course_id = c.id;
+
+-- Lấy thông tin về tất cả sinh viên và khóa học của họ (bao gồm cả những sinh viên chưa tham gia khóa học nào 
+
+SELECT s.full_name, c.name 
+FROM students s
+LEFT JOIN enrollments e ON s.id = e.student_id
+LEFT JOIN courses c ON e.course_id = c.id;
+
